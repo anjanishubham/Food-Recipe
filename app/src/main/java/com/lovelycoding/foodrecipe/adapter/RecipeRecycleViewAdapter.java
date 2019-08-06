@@ -89,11 +89,13 @@ public class RecipeRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.
     public int getItemViewType(int position) {
       if(mRecipeList.get(position).getSocial_rank()==-1){
           return RECIPE_CATEGORY_TYPE;
-      }
-       else if(mRecipeList.get(position).getTitle().equals("LOADING..."))
-            return RECIPE_LOADING_TYPE;
-        else
-            return RECIPE_TYPE;
+      } else if (position == mRecipeList.size() - 1 && mRecipeList.size() != 0 &&
+              !mRecipeList.get(position).getTitle().equals("EXHAUSTED..")) {
+          return RECIPE_LOADING_TYPE;
+      } else if (mRecipeList.get(position).getTitle().equals("LOADING..."))
+          return RECIPE_LOADING_TYPE;
+      else
+          return RECIPE_TYPE;
     }
 
     public void displayLoading() {

@@ -20,11 +20,11 @@ android {
 }
 
 dependencies {
-    def retrofit_version="2.5.0"
-    def cardview_version="1.0.0-rc02"
-    def recycle_view="1.1.0-beta01"
-    def glide_version="4.8.0"
-    def design_version="1.1.0-rc01"
+    def retrofit_version = "2.5.0"
+    def cardview_version = "1.0.0-rc02"
+    def recycle_view = "1.1.0-beta01"
+    def glide_version = "4.8.0"
+    def design_version = "1.1.0-rc01"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha03'
@@ -44,12 +44,9 @@ dependencies {
 
 
     implementation 'com.google.android.material:material:1.0.0-rc01'
-    implementation  "com.github.bumptech.glide:glide:$glide_version"
+    implementation "com.github.bumptech.glide:glide:$glide_version"
 //circular image view
     implementation 'de.hdodenhof:circleimageview:3.0.0'
-
-
-
 
 
 }

@@ -13,6 +13,7 @@ public class RecipeListViewModels extends ViewModel {
 
     private RecipeRepository mRecipeRepository;
     public static boolean mViewRecipeCategory;
+   // private
     public RecipeListViewModels() {
         mRecipeRepository=RecipeRepository.getRecipeRepositoryInstance();
       //  mViewRecipeCategory =true;
@@ -25,6 +26,13 @@ public class RecipeListViewModels extends ViewModel {
     public void searchRecipeApi(String query,int page )
     {
         mRecipeRepository.searchRecipeApi(query,page);
+    }
+
+    public void searchNextPageRecipe() {
+        if(!mViewRecipeCategory)
+        {
+            mRecipeRepository.searchNextPage();
+        }
     }
 
 

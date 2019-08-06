@@ -11,6 +11,8 @@ import java.util.List;
 public class RecipeRepository {
     private static RecipeRepository instance;
     private RecipeApiClient mRecipeClient;
+    private String mQuery;
+    private int mPageNumber;
     private RecipeRepository()
     {
         mRecipeClient=RecipeApiClient.getRecipeApiClientInstacne();;
@@ -28,6 +30,16 @@ public class RecipeRepository {
     }
     public void searchRecipeApi(String query,int page )
     {
+        if(page==0)
+        {
+            page=1;
+        }
+        mQuery=query;
+        mPageNumber=page;
         mRecipeClient.searchRecipesApi(query,page);
+    }
+    public void searchNextPage()
+    {
+        searchRecipeApi(mQuery,mPageNumber+1);
     }
 }

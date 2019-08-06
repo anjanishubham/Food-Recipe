@@ -82,6 +82,16 @@ public class RecipeListActivity extends BaseActivity implements OnRecipeListener
         mAdapter = new RecipeRecycleViewAdapter(this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                if (!mRecyclerView.canScrollVertically(1)) {
+                    //next page
+                    mRecipeListViewModels.searchNextPageRecipe();
+
+                }
+            }
+        });
     }
 
     private void subscribeObserver() {
