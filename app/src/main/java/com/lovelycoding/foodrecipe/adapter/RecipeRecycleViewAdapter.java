@@ -1,6 +1,7 @@
 package com.lovelycoding.foodrecipe.adapter;
 
 import android.annotation.SuppressLint;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ public class RecipeRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.
     private static final int RECIPE_TYPE = 1;
     private static final int RECIPE_LOADING_TYPE = 2;
     private static final int RECIPE_CATEGORY_TYPE=3;
+    private static final int SEARCH_EXHAUSTED_TYPE=4;
     OnRecipeListener mRecipeListener;
 
     public RecipeRecycleViewAdapter(OnRecipeListener mRecipeListener) {
@@ -42,6 +44,9 @@ public class RecipeRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.
             case RECIPE_LOADING_TYPE:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_loading_list_item, parent, false);
                 return new LoadingViewHolder(view);
+                case SEARCH_EXHAUSTED_TYPE:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_query_exhausted, parent, false);
+                return new SearchExhaustedViewHolder(view);
             case RECIPE_CATEGORY_TYPE:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_category_list, parent, false);
                 return new CategoryViewHolder(view,mRecipeListener);
@@ -72,6 +77,15 @@ public class RecipeRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.
         } else if (itemViewType == RECIPE_CATEGORY_TYPE) {
 
             try {
+                RequestOptions requestOptions = new RequestOptions()
+                        .placeholder(R.drawable.images_not_found);
+               // Uri path1 = Uri.parse("android.resource://com.codingwithmitch.foodrecipes/drawable/" + mRecipes.get(i).getImage_url());
+                Uri path=Uri.parse("android.resource://com.lovelycoding.foodrecipe/drawable/"+ mRecipeList.get(position).getImage_url());
+                Glide.with(holder.itemView.getContext())
+                        .setDefaultRequestOptions(requestOptions)
+                        .load(path)
+                        .into(((CategoryViewHolder)holder).circleImageView);
+
                 ((CategoryViewHolder) holder).categoryTitle.setText(mRecipeList.get(position).getTitle());
             }catch (ClassCastException e)
             {
@@ -94,6 +108,8 @@ public class RecipeRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.
           return RECIPE_LOADING_TYPE;
       } else if (mRecipeList.get(position).getTitle().equals("LOADING..."))
           return RECIPE_LOADING_TYPE;
+      else if (mRecipeList.get(position).getTitle().equals("EXHAUSTED..."))
+          return SEARCH_EXHAUSTED_TYPE;
       else
           return RECIPE_TYPE;
     }
@@ -110,6 +126,27 @@ public class RecipeRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.
         }
     }
 
+    public void setSearchExhausted() {
+        hideLoading();
+        Recipe recipe = new Recipe();
+        recipe.setTitle("EXHAUSTED...");
+        mRecipeList.add(recipe);
+        notifyDataSetChanged();
+
+    }
+
+    private void hideLoading() {
+        {
+            for (Recipe r : mRecipeList) {
+                if (r.getTitle().equals("LOADING...")) {
+                    mRecipeList.remove(r);
+                    break;
+
+                }
+            }
+            notifyDataSetChanged();
+        }
+    }
     private boolean isLoading() {
         if(mRecipeList!=null)
         {
@@ -143,5 +180,14 @@ public class RecipeRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.
         mRecipeList=recipes;
         notifyDataSetChanged();
 
+    }
+
+    public Recipe getSelectedRecipe(int position) {
+        if (mRecipeList != null) {
+            if (mRecipeList.size() > 0) {
+                return mRecipeList.get(position);
+            }
+        }
+        return null;
     }
 }

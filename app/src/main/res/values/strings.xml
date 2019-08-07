@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">FoodRecipe</string>
     <string name="menu_category">category</string>
+    <string name="exhausted_data">No more results ...</string>
 </resources>

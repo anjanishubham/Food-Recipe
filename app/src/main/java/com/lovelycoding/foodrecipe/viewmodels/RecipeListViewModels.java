@@ -20,6 +20,7 @@ public class RecipeListViewModels extends ViewModel {
     }
 
     public LiveData<List<Recipe>> getRecipes()
+
     {
         return mRecipeRepository.getRecipes();
     }
@@ -29,10 +30,13 @@ public class RecipeListViewModels extends ViewModel {
     }
 
     public void searchNextPageRecipe() {
-        if(!mViewRecipeCategory)
+        if(!mViewRecipeCategory && !isQueryExhausted().getValue())
         {
             mRecipeRepository.searchNextPage();
         }
+    }
+    public LiveData<Boolean> isQueryExhausted() {
+        return mRecipeRepository.isQueryExhausted();
     }
 
 
