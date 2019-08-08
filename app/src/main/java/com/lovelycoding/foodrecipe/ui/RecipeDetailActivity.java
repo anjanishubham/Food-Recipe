@@ -1,22 +1,17 @@
 package com.lovelycoding.foodrecipe.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.widget.ImageViewCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -129,6 +124,7 @@ public class RecipeDetailActivity extends BaseActivity {
         toolbar.setTitle(recipe.getTitle());
         mRecipeRank.setText(String.valueOf(Math.round(recipe.getSocial_rank())));
         mRecipeIngredientsContainer.removeAllViews();
+        error.setVisibility(View.GONE);
         for(String ingredient: recipe.getIngredients())
         {
             TextView textView = new TextView(this);
